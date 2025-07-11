@@ -32,7 +32,12 @@ export default function AdminDashboard() {
     fetch('http://localhost:4000/products')
       .then(res => res.json())
       .then(data => {
-        setProducts(data);
+        if (Array.isArray(data)) {
+          setProducts(data);
+        } else {
+          setProducts([]); // Prevent .map error
+          console.error('Products API did not return an array:', data);
+        }
         setLoading(false);
       });
   }, []);
